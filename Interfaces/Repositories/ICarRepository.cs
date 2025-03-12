@@ -6,7 +6,7 @@ public interface ICarRepository
 {
     List<Car> GetAllCars();
     Car GetCarById(int carId);
-    void AddCarById(Car car);
+    void AddCar(Car car);
     void UpdateCar(Car car);
     void DeleteCar(int carId);
 }

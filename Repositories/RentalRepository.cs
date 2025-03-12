@@ -19,23 +19,30 @@ public class RentalRepository : IRentalRepository
             .FirstOrDefault(r => r.Id == rentalId);
     }
 
-    public List<Rental> GetRentalByUserId(int userId)
+    public List<Rental> GetRentalsByUserId(int userId)
     {
-        throw new NotImplementedException();
+        return _context.Rentals.Include(r => r.Car).Where(r => r.UserId == userId).ToList();
     }
 
     public void AddRental(Rental rental)
     {
-        throw new NotImplementedException();
+        _context.Rentals.Add(rental);
+        _context.SaveChanges();
     }
 
     public void UpdateRental(Rental rental)
     {
-        throw new NotImplementedException();
+        _context.Rentals.Update(rental);
+        _context.SaveChanges();
     }
 
     public void DeleteRental(int rentalId)
     {
-        throw new NotImplementedException();
+        var rental = _context.Rentals.Find(rentalId);
+        if (rental != null)
+        {
+            _context.Rentals.Remove(rental);
+            _context.SaveChanges();
+        }
     }
 }

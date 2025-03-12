@@ -1,3 +1,4 @@
+using CarRentalApp.Data;
 using CarRentalApp.Interfaces.Repositories;
 using CarRentalApp.Models;
 
@@ -5,28 +6,36 @@ namespace CarRentalApp.Repositories;
 
 public class UserRepository : IUserRepository
 {
+    private readonly ApplicationDbContext _context;
     public User GetUserByEmail(string email)
     {
-        throw new NotImplementedException();
+       return _context.Users.FirstOrDefault(u => u.Email == email);
     }
 
     public User GetUserById(int userId)
     {
-        throw new NotImplementedException();
+        return _context.Users.FirstOrDefault(u => u.Id == userId);
     }
 
     public void AddUser(User user)
     {
-        throw new NotImplementedException();
+        _context.Users.Add(user);
+        _context.SaveChanges();
     }
 
     public void UpdateUser(User user)
     {
-        throw new NotImplementedException();
+        _context.Users.Update(user);
+        _context.SaveChanges();
     }
 
     public void DeleteUser(int UserId)
     {
-        throw new NotImplementedException();
+        var user = _context.Users.Find(UserId);
+        if (user != null)
+        {
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
     }
 }

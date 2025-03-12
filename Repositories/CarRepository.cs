@@ -1,3 +1,4 @@
+using CarRentalApp.Data;
 using CarRentalApp.Interfaces.Repositories;
 using CarRentalApp.Models;
 
@@ -5,28 +6,41 @@ namespace CarRentalApp.Repositories;
 
 public class CarRepository : ICarRepository
 {
+    private readonly ApplicationDbContext _context;
+
+    public CarRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
     public List<Car> GetAllCars()
     {
-        throw new NotImplementedException();
+        return _context.Cars.ToList();
     }
 
     public Car GetCarById(int carId)
     {
-        throw new NotImplementedException();
+        return _context.Cars.FirstOrDefault(c => c.Id == carId);
     }
 
-    public void AddCarById(Car car)
+    public void AddCar(Car car)
     {
-        throw new NotImplementedException();
+        _context.Cars.Add(car);
+        _context.SaveChanges();
     }
 
     public void UpdateCar(Car car)
     {
-        throw new NotImplementedException();
+        _context.Cars.Update(car);
+        _context.SaveChanges();
     }
 
     public void DeleteCar(int carId)
     {
-        throw new NotImplementedException();
+        var car = _context.Cars.Find(carId);
+        if (car != null)
+        {
+            _context.Cars.Remove(car);
+            _context.SaveChanges();
+        }
     }
 }
