@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qUx+I0e5xDQ=",
+  "dgSpecHash": "SEjTIKdWxmI=",
   "success": true,
   "projectFilePath": "/Users/lesifuges/Desktop/CarRentalApp/CarRentalApp.csproj",
   "expectedPackageFiles": [
@@ -17,11 +17,16 @@
     "/Users/lesifuges/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.3/microsoft.extensions.logging.abstractions.9.0.3.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/microsoft.extensions.options/9.0.3/microsoft.extensions.options.9.0.3.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/microsoft.extensions.primitives/9.0.3/microsoft.extensions.primitives.9.0.3.nupkg.sha512",
+    "/Users/lesifuges/.nuget/packages/microsoft.identitymodel.abstractions/8.6.1/microsoft.identitymodel.abstractions.8.6.1.nupkg.sha512",
+    "/Users/lesifuges/.nuget/packages/microsoft.identitymodel.jsonwebtokens/8.6.1/microsoft.identitymodel.jsonwebtokens.8.6.1.nupkg.sha512",
+    "/Users/lesifuges/.nuget/packages/microsoft.identitymodel.logging/8.6.1/microsoft.identitymodel.logging.8.6.1.nupkg.sha512",
+    "/Users/lesifuges/.nuget/packages/microsoft.identitymodel.tokens/8.6.1/microsoft.identitymodel.tokens.8.6.1.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/microsoft.openapi/1.6.22/microsoft.openapi.1.6.22.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/swashbuckle.aspnetcore/7.3.1/swashbuckle.aspnetcore.7.3.1.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/swashbuckle.aspnetcore.swagger/7.3.1/swashbuckle.aspnetcore.swagger.7.3.1.nupkg.sha512",
     "/Users/lesifuges/.nuget/packages/swashbuckle.aspnetcore.swaggergen/7.3.1/swashbuckle.aspnetcore.swaggergen.7.3.1.nupkg.sha512",
-    "/Users/lesifuges/.nuget/packages/swashbuckle.aspnetcore.swaggerui/7.3.1/swashbuckle.aspnetcore.swaggerui.7.3.1.nupkg.sha512"
+    "/Users/lesifuges/.nuget/packages/swashbuckle.aspnetcore.swaggerui/7.3.1/swashbuckle.aspnetcore.swaggerui.7.3.1.nupkg.sha512",
+    "/Users/lesifuges/.nuget/packages/system.identitymodel.tokens.jwt/8.6.1/system.identitymodel.tokens.jwt.8.6.1.nupkg.sha512"
   ],
   "logs": []
 }
