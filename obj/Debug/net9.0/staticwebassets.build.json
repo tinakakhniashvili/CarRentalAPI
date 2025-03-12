@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "sgNKZOCaKhdYY2f125EaxV+xdKvTRnMI2qpSQFEP4jc=",
+  "Source": "CarRentalApp",
+  "BasePath": "_content/CarRentalApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
