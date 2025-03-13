@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace CarRentalApp.Controllers;
 
-public class UserController
+public class UserController : ControllerBase
 {
     
 }
