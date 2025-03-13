@@ -22,8 +22,9 @@ public class AuthController : ControllerBase
 
         if (!success)
             return BadRequest(new { message = "User already exists" });
-
-        return Ok(new { message = "Registration successful" });
+    
+        // return Ok(new { message = "Registration successful" });
+        return CreatedAtAction(nameof(Register), new { message = "Registration successful" });
     }
 
     [HttpPost("Login")]

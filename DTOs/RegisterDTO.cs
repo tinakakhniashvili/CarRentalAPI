@@ -5,7 +5,13 @@ namespace CarRentalApp.DTOs;
 public class RegisterDTO
 {
     [Required]
-    public string FullName { get; set; }
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+
+    [Required] 
+    public int PhoneNumber { get; set; }
 
     [Required]
     [EmailAddress]
