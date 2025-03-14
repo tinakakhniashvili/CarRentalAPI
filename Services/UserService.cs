@@ -4,8 +4,9 @@ using CarRentalApp.Interfaces.Repositories;
 
 namespace CarRentalApp.Services;
 
-public class UserService : IUserService
+public class UserService // : IUserService
 {
+    /*
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository)
@@ -41,5 +42,5 @@ public class UserService : IUserService
             FullName = user.FullName,
             Email = user.Email
         };
-    }
+    } */
 }

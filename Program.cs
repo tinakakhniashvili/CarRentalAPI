@@ -20,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add Services 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserService, UserService>();
+// builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICarService, CarService>();
 
 // Add Repositories
@@ -78,6 +78,9 @@ app.UseCors("AllowAllOrigins");
 app.UseMiddleware<JwtMiddleware>(); // Apply custom JWT middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
+
 
 app.Run();
 

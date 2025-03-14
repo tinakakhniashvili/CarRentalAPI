@@ -1,6 +1,9 @@
+using CarRentalApp.Data;
 using CarRentalApp.DTOs;
 using CarRentalApp.Interfaces;
+using CarRentalApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Controllers;
 
@@ -9,32 +12,63 @@ namespace CarRentalApp.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly ApplicationDbContext _context;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, ApplicationDbContext context)
     {
         _authService = authService;
+        _context = context;
     }
-
-    [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterDTO registerDto)
-    {
-        var success = _authService.RegisterUser(registerDto);
-
-        if (!success)
-            return BadRequest(new { message = "User already exists" });
     
-        // return Ok(new { message = "Registration successful" });
-        return CreatedAtAction(nameof(Register), new { message = "Registration successful" });
+    [HttpPost("register")]
+    public async Task<ActionResult<User>> Register(UserDTO request)
+    {
+        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+        if (existingUser != null)
+        {
+            return BadRequest("User already exists");
+        }
+
+        var user = new User
+        {
+            PhoneNumber = request.PhoneNumber,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            Role = "User"
+        };
+        _authService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(user);
     }
 
-    [HttpPost("Login")]
-    public IActionResult Login([FromBody] LoginDTO loginDto)
+    [HttpPost("login")]
+    public async Task<ActionResult> Login(LoginDTO request)
     {
-        var result = _authService.LoginUser(loginDto);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber);
+        if (user == null)
+        {
+            return BadRequest("User Not Found!");
+        }
 
-        if (result == null)
-            return Unauthorized(new {message = "Invalid credentials"});
+        if (!_authService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return BadRequest("Wrong Password");
+        }
 
-        return Ok(result);
+        var token = _authService.CreateToken(user);
+        return Ok(new 
+        { 
+            token,
+            user.FirstName,
+            user.LastName,
+            user.Role,
+            user.PhoneNumber,
+            user.Email });
     }
 }

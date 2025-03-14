@@ -1,77 +1,52 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using CarRentalApp.Data;
-using CarRentalApp.DTOs;
-using CarRentalApp.Helpers;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarRentalApp.Services;
 
-public class AuthService : IAuthService
+public class AuthService  : IAuthService
 {
-    private readonly ApplicationDbContext _context;
-    private readonly JwtHelper _jwtHelper;
+    private readonly IConfiguration _configuration;
 
-    public AuthService(ApplicationDbContext context, JwtHelper jwtHelper)
+    public AuthService(IConfiguration configuration)
     {
-        _context = context;
-        _jwtHelper = jwtHelper;
+        _configuration = configuration;
     }
-    
-    public bool RegisterUser(RegisterDTO registerDto)
+    public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        if (_context.Users.Any(u => u.Email == registerDto.Email))
-            return false;
-
-        byte[] salt = new byte[128 / 8];
-        using (var rng = RandomNumberGenerator.Create())
+        using (var hmac = new HMACSHA512())
         {
-            rng.GetBytes(salt);
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
-
-        string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: registerDto.Password,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA256,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-
-        var user = new User
-        {
-            Email = registerDto.Email,
-            PasswordHash = hashedPassword,
-            Role = "User"
-        };
-
-        _context.Users.Add(user);
-        _context.SaveChanges();
-        return true;
     }
 
-    public AuthDTO LoginUser(LoginDTO loginDTO)
+    public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        var user = _context.Users.SingleOrDefault(u => u.Email == loginDTO.Email);
-        if (user == null)
-            return null;
-
-        string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: loginDTO.Password,
-            salt: new byte[128 / 8],
-            prf: KeyDerivationPrf.HMACSHA256,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-
-        if (hashedPassword != user.PasswordHash)
-            return null;
-
-        var token = _jwtHelper.GenerateToken(user);
-
-        return new AuthDTO
+        using (var hmac = new HMACSHA512(passwordSalt))
         {
-            Token = token
-            // Email = user.Email,
-            // Role = user.Role
+            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return computedHash.SequenceEqual(passwordHash);
+        }
+    }
+
+    public string CreateToken(User user)
+    {
+        List<Claim> claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.MobilePhone, user.PhoneNumber)
         };
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+        var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+        var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(1), signingCredentials: cred);
+           
+        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return jwt;
     }
 }

@@ -1,9 +1,10 @@
-using CarRentalApp.DTOs;
+using CarRentalApp.Models;
 
 namespace CarRentalApp.Interfaces;
 
 public interface IAuthService
 {
-    bool RegisterUser(RegisterDTO registerDto);
-    AuthDTO LoginUser(LoginDTO loginDTO);
+    void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
+    bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+    string CreateToken(User user);
 }
