@@ -1,3 +1,4 @@
+using CarRentalApp.DTOs;
 using CarRentalApp.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,19 @@ public class CarController : ControllerBase
         return Ok(car);
     }
 
+    [Authorize]
+    [HttpPost]
+    public IActionResult PostCar([FromBody] CreateCarDTO carDTO)
+    {
+        if (carDTO == null)
+        {
+            return BadRequest(new { message = "Invalid car data" });
+        }
+
+        var createdCar = _carService.CreateCar(carDTO);
+        return CreatedAtAction(nameof(GetCarById), new { id = createdCar.Id }, createdCar);
+    }
+    
     [Authorize]
     [HttpDelete("{id}")]
     public IActionResult DeleteCar(int id)
