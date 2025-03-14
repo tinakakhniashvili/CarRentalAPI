@@ -51,7 +51,10 @@ public class CarService : ICarService
             Make = carDto.Make,
             Model = carDto.Model,
             Year = carDto.Year,
-            PricePerDay = carDto.PricePerDay
+            PricePerDay = carDto.PricePerDay,
+            Description = carDto.Description,
+            ImageUrl = carDto.ImageUrl,
+            IsAvailable = carDto.IsAvailable,
         };
 
         _context.Cars.Add(car);
