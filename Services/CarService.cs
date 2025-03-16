@@ -70,4 +70,21 @@ public class CarService : ICarService
         if (car != null)
             _carRepository.DeleteCar(carId);
     }
+
+    public IEnumerable<CarDTO> FilterCars(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable)
+    {
+        var cars = _carRepository.FilterCras(make, model, year, maxPrice, isAvailable);
+
+        return cars.Select(car => new CarDTO
+        {
+            Id = car.Id,
+            Make = car.Make,
+            Model = car.Model,
+            Year = car.Year,
+            PricePerDay = car.PricePerDay,
+            IsAvailable = car.IsAvailable ?? false,
+            Description = car.Description,
+            ImageUrl = car.ImageUrl
+        }).ToList();
+    }
 }

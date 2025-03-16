@@ -61,4 +61,13 @@ public class CarController : ControllerBase
         _carService.DeleteCar(id);
         return NoContent();
     }
+
+    [HttpGet("filter")]
+    public IActionResult FilterCras([FromQuery] string? make, [FromQuery] string? model,
+        [FromQuery] int? year, [FromQuery] decimal? maxPrice,
+        [FromQuery] bool? isAvailable)
+    {
+        var filteredCars = _carService.FilterCars(make, model, year, maxPrice, isAvailable);
+        return Ok(filteredCars);
+    }
 }

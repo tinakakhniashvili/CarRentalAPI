@@ -43,4 +43,26 @@ public class CarRepository : ICarRepository
             _context.SaveChanges();
         }
     }
+
+    public IEnumerable<Car> FilterCras(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable)
+    {
+        var query = _context.Cars.AsQueryable();
+
+        if (!string.IsNullOrEmpty(make))
+            query = query.Where(c => c.Make.ToLower() == make.ToLower());
+
+        if (!string.IsNullOrEmpty(model))
+            query = query.Where(c => c.Model.ToLower() == model.ToLower());
+
+        if (year.HasValue)
+            query = query.Where(c => c.Year == year.Value);
+
+        if (maxPrice.HasValue)
+            query = query.Where(c => c.PricePerDay <= maxPrice.Value);
+
+        if (isAvailable.HasValue)
+            query = query.Where(c => c.IsAvailable == isAvailable.Value);
+
+        return query.ToList();
+    }
 }

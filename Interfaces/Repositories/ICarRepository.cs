@@ -9,4 +9,5 @@ public interface ICarRepository
     void AddCar(Car car);
     void UpdateCar(Car car);
     void DeleteCar(int carId);
+    public IEnumerable<Car> FilterCras(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable);
 }
