@@ -22,18 +22,6 @@ public class CarRepository : ICarRepository
         return _context.Cars.FirstOrDefault(c => c.Id == carId);
     }
 
-    public void AddCar(Car car)
-    {
-        _context.Cars.Add(car);
-        _context.SaveChanges();
-    }
-
-    public void UpdateCar(Car car)
-    {
-        _context.Cars.Update(car);
-        _context.SaveChanges();
-    }
-
     public void DeleteCar(int carId)
     {
         var car = _context.Cars.Find(carId);
