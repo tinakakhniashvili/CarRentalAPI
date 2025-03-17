@@ -23,13 +23,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 // builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICarService, CarService>();
-builder.Services.AddScoped<IRentalService, RentalService>()
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 // Add Repositories
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRentalRepository, RentalRepository>()
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 
 // Add JWT authentication
 builder.Services.AddSingleton<JwtHelper>();
