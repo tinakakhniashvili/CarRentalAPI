@@ -22,7 +22,7 @@ public class CarService : ICarService
         return cars.Select(car => new CarDTO
         {
             Id = car.Id,
-            Make = car.Make,
+            Brand = car.Brand,
             Model = car.Model,
             Year = car.Year,
             PricePerDay = car.PricePerDay
@@ -37,7 +37,7 @@ public class CarService : ICarService
         return new CarDTO
         {
             Id = car.Id,
-            Make = car.Make,
+            Brand = car.Brand,
             Model = car.Model,
             Year = car.Year,
             PricePerDay = car.PricePerDay
@@ -48,7 +48,7 @@ public class CarService : ICarService
     {
         var car = new Car
         {
-            Make = carDto.Make,
+            Brand = carDto.Brand,
             Model = carDto.Model,
             Year = carDto.Year,
             PricePerDay = carDto.PricePerDay,
@@ -78,7 +78,7 @@ public class CarService : ICarService
         return cars.Select(car => new CarDTO
         {
             Id = car.Id,
-            Make = car.Make,
+            Brand = car.Brand,
             Model = car.Model,
             Year = car.Year,
             PricePerDay = car.PricePerDay,

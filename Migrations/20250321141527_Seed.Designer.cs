@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250321110958_FixDecimalIssue")]
-    partial class FixDecimalIssue
+    [Migration("20250321141527_Seed")]
+    partial class Seed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace CarRentalApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -43,10 +47,6 @@ namespace CarRentalApp.Migrations
 
                     b.Property<bool?>("IsAvailable")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Make")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -60,7 +60,7 @@ namespace CarRentalApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalApp.Models.Rental", b =>
@@ -96,7 +96,7 @@ namespace CarRentalApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Rentals");
+                    b.ToTable("Rentals", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalApp.Models.User", b =>
@@ -140,7 +140,7 @@ namespace CarRentalApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CarRentalApp.Models.Rental", b =>

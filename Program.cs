@@ -4,12 +4,10 @@ using CarRentalApp.Data;
 using CarRentalApp.Helpers;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Interfaces.Repositories;
-// using CarRentalApp.Middlewares;
 using CarRentalApp.Repositories;
 using CarRentalApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -103,11 +101,27 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// using (var scope = app.Services.CreateScope())
+// {
+//     var seedService = scope.ServiceProvider.GetRequiredService<Seed>();
+//     seedService.SeedDataContext();
+// }
+
 using (var scope = app.Services.CreateScope())
 {
-    var seedService = scope.ServiceProvider.GetRequiredService<Seed>();
-    seedService.SeedDataContext();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var seedService = services.GetRequiredService<Seed>();
+        seedService.SeedDataContext();
+        Console.WriteLine("Database seeding completed.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Seeding error: {ex.Message}");
+    }
 }
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -117,7 +131,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAllOrigins");
 
-// app.UseMiddleware<JwtMiddleware>(); // Apply custom JWT middleware
 app.UseAuthentication();
 app.UseAuthorization();
 

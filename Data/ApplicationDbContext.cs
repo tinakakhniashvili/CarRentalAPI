@@ -24,5 +24,9 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Rental>()
             .Property(r => r.TotalPrice)
             .HasColumnType("decimal(18,2)");
+
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<Car>().ToTable("Cars");
+        modelBuilder.Entity<Rental>().ToTable("Rentals");
     }
 }

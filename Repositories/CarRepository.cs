@@ -37,7 +37,7 @@ public class CarRepository : ICarRepository
         var query = _context.Cars.AsQueryable();
 
         if (!string.IsNullOrEmpty(make))
-            query = query.Where(c => c.Make.ToLower() == make.ToLower());
+            query = query.Where(c => c.Brand.ToLower() == make.ToLower());
 
         if (!string.IsNullOrEmpty(model))
             query = query.Where(c => c.Model.ToLower() == model.ToLower());

@@ -5,7 +5,7 @@ namespace CarRentalApp.Models;
 public class Car
 {
     public int Id { get; set; }
-    public string Make { get; set; } // Manufacturer of the car
+    public string Brand { get; set; } // Manufacturer of the car
     public string Model { get; set; }
     public int Year { get; set; }
     public string Description { get; set; }
