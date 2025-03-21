@@ -8,12 +8,12 @@ namespace CarRentalApp.Services;
 public class RentalService : IRentalService
 {
     private readonly IRentalRepository _rentalRepository;
-    private readonly ICarRepository _carRepository;
+    // private readonly ICarRepository _carRepository;
 
-    public RentalService(IRentalRepository rentalRepository, ICarRepository carRepository)
+    public RentalService(IRentalRepository rentalRepository /*ICarRepository carRepository */)
     {
         _rentalRepository = rentalRepository;
-        _carRepository = carRepository;
+        // _carRepository = carRepository;
     }
     public RentalDTO GetRentalById(int rentalId)
     {

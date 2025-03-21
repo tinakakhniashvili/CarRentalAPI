@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRentalApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddMissingColumns : Migration
+    public partial class FixDecimalIssue : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace CarRentalApp.Migrations
                     Year = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PricePerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

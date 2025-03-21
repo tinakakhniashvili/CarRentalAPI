@@ -1,13 +1,15 @@
 using System.Text;
+using CarRentalApp;
 using CarRentalApp.Data;
 using CarRentalApp.Helpers;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Interfaces.Repositories;
-using CarRentalApp.Middlewares;
+// using CarRentalApp.Middlewares;
 using CarRentalApp.Repositories;
 using CarRentalApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -29,7 +31,9 @@ builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+
+// Add Seeder
+builder.Services.AddScoped<Seed>();
 
 // Add JWT authentication
 builder.Services.AddSingleton<JwtHelper>();
@@ -99,6 +103,12 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var seedService = scope.ServiceProvider.GetRequiredService<Seed>();
+    seedService.SeedDataContext();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -107,7 +117,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAllOrigins");
 
-app.UseMiddleware<JwtMiddleware>(); // Apply custom JWT middleware
+// app.UseMiddleware<JwtMiddleware>(); // Apply custom JWT middleware
 app.UseAuthentication();
 app.UseAuthorization();
 

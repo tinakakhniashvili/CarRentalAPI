@@ -4,9 +4,8 @@ using CarRentalApp.Interfaces.Repositories;
 
 namespace CarRentalApp.Services;
 
-public class UserService // : IUserService
+public class UserService : IUserService
 {
-    /*
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository)
@@ -16,31 +15,33 @@ public class UserService // : IUserService
     public UserDTO GetUserById(int userId)
     {
         var user = _userRepository.GetUserById(userId);
+
         if (user == null) return null;
 
-        return new UserDTO
+        var userDTO = new UserDTO
         {
-            Id = user.Id,
-            FullName = user.FullName,
-            Email = user.Email
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber
         };
+
+        return userDTO;
     }
 
     public UserDTO UpdateUser(int userId, UserDTO userDTO)
     {
         var user = _userRepository.GetUserById(userId);
-        if (user == null) return null;
+        if(user ==null) return null;
 
-        user.FullName = userDTO.FullName;
+        user.FirstName = userDTO.FirstName;
+        user.LastName = userDTO.LastName;
         user.Email = userDTO.Email;
+        user.PhoneNumber = userDTO.PhoneNumber;
+        // user.Password = userDTO.Password;
         
         _userRepository.UpdateUser(user);
 
-        return new UserDTO
-        {
-            Id = user.Id,
-            FullName = user.FullName,
-            Email = user.Email
-        };
-    } */
+        return userDTO;
+    }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250313201656_AddMissingColumns")]
-    partial class AddMissingColumns
+    [Migration("20250321110958_FixDecimalIssue")]
+    partial class FixDecimalIssue
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace CarRentalApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAvailable")
+                    b.Property<bool?>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Make")

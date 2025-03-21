@@ -38,7 +38,7 @@ namespace CarRentalApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAvailable")
+                    b.Property<bool?>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Make")
