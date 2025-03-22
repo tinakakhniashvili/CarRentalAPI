@@ -29,6 +29,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Car>().ToTable("Cars");
         modelBuilder.Entity<Rental>().ToTable("Rentals");
         
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.PhoneNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+        
         modelBuilder.Entity<Rental>()
             .HasOne(r => r.User)
             .WithMany(u => u.Rentals)
@@ -39,6 +47,6 @@ public class ApplicationDbContext : DbContext
             .HasOne(r => r.Car)
             .WithMany(c => c.Rentals)
             .HasForeignKey(r => r.CarId)
-            .OnDelete(DeleteBehavior.Cascade);  
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
