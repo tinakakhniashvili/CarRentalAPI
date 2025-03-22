@@ -38,7 +38,6 @@ public class UserService : IUserService
         user.LastName = userDTO.LastName;
         user.Email = userDTO.Email;
         user.PhoneNumber = userDTO.PhoneNumber;
-        // user.Password = userDTO.Password;
         
         _userRepository.UpdateUser(user);
 

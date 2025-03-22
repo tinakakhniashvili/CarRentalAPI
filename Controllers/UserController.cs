@@ -29,7 +29,7 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public IActionResult UpdateUser(int id, [FromBody] UserDTO userDTO)
     {

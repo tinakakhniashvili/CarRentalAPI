@@ -129,6 +129,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// tokenis validacia, issuer audience 
+
 app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();

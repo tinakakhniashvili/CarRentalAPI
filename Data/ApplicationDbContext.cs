@@ -28,5 +28,17 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>().ToTable("Users");
         modelBuilder.Entity<Car>().ToTable("Cars");
         modelBuilder.Entity<Rental>().ToTable("Rentals");
+        
+        modelBuilder.Entity<Rental>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Rentals)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Rental>()
+            .HasOne(r => r.Car)
+            .WithMany(c => c.Rentals)
+            .HasForeignKey(r => r.CarId)
+            .OnDelete(DeleteBehavior.Cascade);  
     }
 }

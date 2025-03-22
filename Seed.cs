@@ -1,7 +1,6 @@
 using CarRentalApp.Data;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarRentalApp;
 
