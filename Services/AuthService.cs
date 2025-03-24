@@ -134,7 +134,7 @@ public class AuthService : IAuthService
         List<Claim> claims = new List<Claim>()
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.FirstName),
+            new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
         };
 
         foreach (var role in user.Roles)
@@ -167,7 +167,7 @@ public class AuthService : IAuthService
         List<Claim> claims = new List<Claim>()
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.FirstName)
+            new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
         };
 
         foreach (var role in user.Roles)
