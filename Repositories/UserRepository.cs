@@ -7,6 +7,11 @@ namespace CarRentalApp.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _context;
+
+    public UserRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
     public User GetUserByEmail(string email)
     {
        return _context.Users.FirstOrDefault(u => u.Email == email);
@@ -14,8 +19,16 @@ public class UserRepository : IUserRepository
 
     public User GetUserById(int userId)
     {
-        return _context.Users.FirstOrDefault(u => u.Id == userId);
+        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+        if (user == null)
+        {
+            Console.WriteLine($"Error: User with ID {userId} not found.");
+        }
+
+        return user; 
     }
+
 
     public void AddUser(User user)
     {
