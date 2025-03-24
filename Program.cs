@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using RegisterLoginJWTBCSTO16.Models.DTO_s;
+using CarRentalApp.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 

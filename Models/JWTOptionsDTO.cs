@@ -1,4 +1,4 @@
-namespace RegisterLoginJWTBCSTO16.Models.DTO_s
+namespace CarRentalApp.DTOs
 {
     public class JWTOptionsDTO
     {
