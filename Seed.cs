@@ -33,13 +33,13 @@ namespace CarRentalApp
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     DateJoined = DateTime.UtcNow,
-                    Role = "Admin" 
+                    Role = "Admin"
                 };
 
                 var userPassword = "User@123";
                 _authService.CreatePasswordHash(userPassword, out byte[] userPasswordHash, out byte[] userPasswordSalt);
 
-                var regularUser = new User
+                var regularUser1 = new User
                 {
                     FirstName = "John",
                     LastName = "Doe",
@@ -48,10 +48,34 @@ namespace CarRentalApp
                     PasswordHash = userPasswordHash,
                     PasswordSalt = userPasswordSalt,
                     DateJoined = DateTime.UtcNow,
-                    Role = "User"  
+                    Role = "User"
                 };
 
-                _context.Users.AddRange(adminUser, regularUser);
+                var regularUser2 = new User
+                {
+                    FirstName = "Jane",
+                    LastName = "Doe",
+                    Email = "janedoe@example.com",
+                    PhoneNumber = "123987456",
+                    PasswordHash = userPasswordHash,
+                    PasswordSalt = userPasswordSalt,
+                    DateJoined = DateTime.UtcNow,
+                    Role = "User"
+                };
+
+                var regularUser3 = new User
+                {
+                    FirstName = "Mark",
+                    LastName = "Smith",
+                    Email = "marksmith@example.com",
+                    PhoneNumber = "555123456",
+                    PasswordHash = userPasswordHash,
+                    PasswordSalt = userPasswordSalt,
+                    DateJoined = DateTime.UtcNow,
+                    Role = "User"
+                };
+
+                _context.Users.AddRange(adminUser, regularUser1, regularUser2, regularUser3);
                 _context.SaveChanges();
             }
 
@@ -70,24 +94,55 @@ namespace CarRentalApp
 
             if (!_context.Rentals.Any())
             {
-                var user = _context.Users.FirstOrDefault(u => u.Email == "johndoe@example.com");
-                var car = _context.Cars.FirstOrDefault(c => c.Model == "Camry");
+                var user1 = _context.Users.FirstOrDefault(u => u.Email == "johndoe@example.com");
+                var user2 = _context.Users.FirstOrDefault(u => u.Email == "admin@example.com");
+                var car1 = _context.Cars.FirstOrDefault(c => c.Model == "Camry");
+                var car2 = _context.Cars.FirstOrDefault(c => c.Model == "Civic");
+                var car3 = _context.Cars.FirstOrDefault(c => c.Model == "Focus");
 
-                if (user != null && car != null)
+                if (user1 != null && car1 != null)
                 {
-                    var rental = new Rental
+                    var rental1 = new Rental
                     {
-                        UserId = user.Id,
-                        CarId = car.Id,
+                        UserId = user1.Id,
+                        CarId = car1.Id,
                         StartDate = DateTime.UtcNow,
-                        EndDate = DateTime.UtcNow.AddDays(7),
-                        TotalPrice = car.PricePerDay * 7,
+                        EndDate = DateTime.UtcNow.AddDays(5),
+                        TotalPrice = car1.PricePerDay * 5,
                         RentalStatus = "Active"
                     };
-
-                    _context.Rentals.Add(rental);
-                    _context.SaveChanges();
+                    _context.Rentals.Add(rental1);
                 }
+
+                if (user2 != null && car2 != null)
+                {
+                    var rental2 = new Rental
+                    {
+                        UserId = user2.Id,
+                        CarId = car2.Id,
+                        StartDate = DateTime.UtcNow.AddDays(2),
+                        EndDate = DateTime.UtcNow.AddDays(6),
+                        TotalPrice = car2.PricePerDay * 6,
+                        RentalStatus = "Active"
+                    };
+                    _context.Rentals.Add(rental2);
+                }
+
+                if (user1 != null && car3 != null)
+                {
+                    var rental3 = new Rental
+                    {
+                        UserId = user1.Id,
+                        CarId = car3.Id,
+                        StartDate = DateTime.UtcNow.AddDays(3),
+                        EndDate = DateTime.UtcNow.AddDays(7),
+                        TotalPrice = car3.PricePerDay * 7,
+                        RentalStatus = "Active"
+                    };
+                    _context.Rentals.Add(rental3);
+                }
+
+                _context.SaveChanges();
             }
 
             Console.WriteLine("Database seeding completed.");
