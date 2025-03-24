@@ -1,7 +1,6 @@
 using System.Text;
 using CarRentalApp;
 using CarRentalApp.Data;
-using CarRentalApp.Helpers;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Interfaces.Repositories;
 using CarRentalApp.Repositories;
@@ -22,7 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add Services 
 builder.Services.AddScoped<IAuthService, AuthService>();
-// builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 
@@ -37,15 +36,14 @@ builder.Services.AddScoped<Seed>();
 // Add JWT authentication
 var jwtOptions = builder.Configuration.GetSection("JWTOptions").Get<JWTOptionsDTO>();
 
-builder.Services.AddSingleton<JwtHelper>();
+// builder.Services.AddSingleton<JwtHelper>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -99,19 +97,12 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer"
                 }
             },
-            // new string[]{}
-            Array.Empty<string>()
+            new string[]{}
         }
     });
 });
 
 var app = builder.Build();
-
-// using (var scope = app.Services.CreateScope())
-// {
-//     var seedService = scope.ServiceProvider.GetRequiredService<Seed>();
-//     seedService.SeedDataContext();
-// }
 
 using (var scope = app.Services.CreateScope())
 {

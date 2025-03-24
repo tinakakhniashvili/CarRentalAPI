@@ -1,9 +1,7 @@
-using CarRentalApp.Data;
 using CarRentalApp.DTOs;
 using CarRentalApp.Interfaces;
-using CarRentalApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Controllers;
 
@@ -12,63 +10,35 @@ namespace CarRentalApp.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly ApplicationDbContext _context;
 
-    public AuthController(IAuthService authService, ApplicationDbContext context)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _context = context;
     }
     
-    [HttpPost("register")]
-    public async Task<ActionResult<User>> Register(UserDTO request)
+    [HttpPost("Register")]
+    public async Task<ServiceResponse<int>> Register(UserRegisterDTO userRegisterDTO)
     {
-        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-        if (existingUser != null)
-        {
-            return BadRequest("User already exists");
-        }
-
-        var user = new User
-        {
-            PhoneNumber = request.PhoneNumber,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            Role = "User"
-        };
-        _authService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-        user.PasswordHash = passwordHash;
-        user.PasswordSalt = passwordSalt;
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok(user);
+        return await _authService.Register(userRegisterDTO);
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginDTO request)
+    [HttpPost("Login")]
+    public async Task<ServiceResponse<string>> Login(UserLoginDTO userLoginDTO)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber);
-        if (user == null)
-        {
-            return BadRequest("User Not Found!");
-        }
-
-        if (!_authService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-        {
-            return BadRequest("Wrong Password");
-        }
-
-        var token = _authService.CreateToken(user);
-        return Ok(new 
-        { 
-            token,
-            user.FirstName,
-            user.LastName,
-            user.Role,
-            user.PhoneNumber,
-            user.Email });
+        return await _authService.Login(userLoginDTO);
+    }
+    
+    [HttpGet("CheckAdmin")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ServiceResponse<string>> CheckAdmin()
+    {
+        return new ServiceResponse<string>() { Data = "Access granted" };
+    }
+    
+    [HttpGet("CheckUser")]
+    [Authorize(Roles = "User")]
+    public async Task<ServiceResponse<string>> CheckUser()
+    {
+        return new ServiceResponse<string>() { Data = "Access granted" };
     }
 }
