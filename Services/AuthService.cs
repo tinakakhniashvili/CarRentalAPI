@@ -41,6 +41,7 @@ public class AuthService : IAuthService
             LastName = registerDTO.LastName,
             Email = registerDTO.Email,  
             PhoneNumber = registerDTO.PhoneNumber, 
+            Role = registerDTO.Role,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt
         };
@@ -57,8 +58,7 @@ public class AuthService : IAuthService
     {
         var response = new ServiceResponse<string>();
 
-        var user = await _context.Users.Include(x => x.Roles)
-            .FirstOrDefaultAsync(x => x.PhoneNumber == loginDTO.PhoneNumber);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.PhoneNumber == loginDTO.PhoneNumber);
 
         if (user == null)
         {
@@ -135,12 +135,13 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+            new Claim(ClaimTypes.Role, user.Role)
         };
 
-        foreach (var role in user.Roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-        }
+        // foreach (var role in user.Roles)
+        // {
+        //     claims.Add(new Claim(ClaimTypes.Role, role.Name));
+        // }
 
         SymmetricSecurityKey key =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWTOptions:Secret").Value));
@@ -168,12 +169,13 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+            new Claim(ClaimTypes.Role, user.Role)
         };
 
-        foreach (var role in user.Roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-        }
+        // foreach (var role in user.Roles)
+        // {
+        //     claims.Add(new Claim(ClaimTypes.Role, role.Name));
+        // }
 
         SymmetricSecurityKey key =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWTOptions:Secret").Value));

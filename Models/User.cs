@@ -18,7 +18,8 @@ public class User : BaseClass
     public string PhoneNumber { get; set; }
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
-    public List<Role> Roles { get; set; }
+    //public List<Role> Roles { get; set; }
+    public string Role { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshExpirationDate { get; set; }
     public DateTime DateJoined { get; set; }

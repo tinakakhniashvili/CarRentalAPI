@@ -1,4 +1,3 @@
-using System.Linq;
 using CarRentalApp.Data;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Models;
@@ -20,21 +19,6 @@ namespace CarRentalApp
         {
             Console.WriteLine("Starting database seeding...");
 
-            if (!_context.Roles.Any())
-            {
-                var roles = new List<Role>
-                {
-                    new Role { Name = "Admin" },
-                    new Role { Name = "User" }
-                };
-
-                _context.Roles.AddRange(roles);
-                _context.SaveChanges();
-            }
-
-            var adminRole = _context.Roles.FirstOrDefault(r => r.Name == "Admin");
-            var userRole = _context.Roles.FirstOrDefault(r => r.Name == "User");
-
             if (!_context.Users.Any())
             {
                 var adminPassword = "Admin@123";
@@ -49,7 +33,7 @@ namespace CarRentalApp
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     DateJoined = DateTime.UtcNow,
-                    Roles = new List<Role> { adminRole }
+                    Role = "Admin" 
                 };
 
                 var userPassword = "User@123";
@@ -64,7 +48,7 @@ namespace CarRentalApp
                     PasswordHash = userPasswordHash,
                     PasswordSalt = userPasswordSalt,
                     DateJoined = DateTime.UtcNow,
-                    Roles = new List<Role> { userRole }
+                    Role = "User"  
                 };
 
                 _context.Users.AddRange(adminUser, regularUser);
