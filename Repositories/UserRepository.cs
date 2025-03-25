@@ -25,6 +25,13 @@ public class UserRepository : IUserRepository
             .ThenInclude(r => r.Car)
             .FirstOrDefault(u => u.Id == userId);
     }
+    public List<User> GetAllUsers()
+    {
+        return _context.Users
+            .Include(u => u.Rentals)
+            .ThenInclude(r => r.Car)
+            .ToList();
+    }
 
     public void AddUser(User user)
     {
@@ -47,4 +54,5 @@ public class UserRepository : IUserRepository
             _context.SaveChanges();
         }
     }
+
 }

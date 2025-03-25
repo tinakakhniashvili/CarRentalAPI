@@ -16,7 +16,17 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public IActionResult GetAllUsers()
+    {
+        var users = _userService.GetAllUsers();
+        if (users == null)
+            return NotFound("No users found");
+
+        return Ok(users);
+    }
+    [Authorize(Roles = "Admin")]
     [HttpGet("{id}")]
     public IActionResult GetUserById(int id)
     {

@@ -50,4 +50,26 @@ public class UserService : IUserService
 
         return userDTO;
     }
+
+    public List<UserDTO> GetAllUsers()
+    {
+        var users = _userRepository.GetAllUsers(); 
+        
+        var userDTOs = users.Select(u => new UserDTO
+        {
+            FirstName = u.FirstName,
+            LastName = u.LastName,
+            Email = u.Email,
+            PhoneNumber = u.PhoneNumber,
+            Rentals = u.Rentals 
+                ?.Select(rental => new RentalDTO
+                {
+                    Id = rental.Id,
+                    CarId = rental.CarId,
+                })
+                .ToList() ?? new List<RentalDTO>() 
+        }).ToList();
+
+        return userDTOs;
+    }
 }
