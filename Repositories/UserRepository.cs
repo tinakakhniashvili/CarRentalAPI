@@ -1,6 +1,7 @@
 using CarRentalApp.Data;
 using CarRentalApp.Interfaces.Repositories;
 using CarRentalApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Repositories;
 
@@ -16,19 +17,14 @@ public class UserRepository : IUserRepository
     {
        return _context.Users.FirstOrDefault(u => u.Email == email);
     }
-
-    public User GetUserById(int userId)
+    
+    public User? GetUserById(int userId)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-
-        if (user == null)
-        {
-            Console.WriteLine($"Error: User with ID {userId} not found.");
-        }
-
-        return user; 
+        return _context.Users
+            .Include(u => u.Rentals)
+            .ThenInclude(r => r.Car)
+            .FirstOrDefault(u => u.Id == userId);
     }
-
 
     public void AddUser(User user)
     {

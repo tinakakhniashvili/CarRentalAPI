@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CarRentalApp.DTOs;
 using CarRentalApp.Entities;
 
 namespace CarRentalApp.Models;
@@ -24,5 +25,5 @@ public class User : BaseClass
     public DateTime DateJoined { get; set; }
     
     // Foreign key to Rentals
-    public ICollection<Rental> Rentals { get; set; }
+    public IEnumerable<Rental>? Rentals { get; set; }
 }

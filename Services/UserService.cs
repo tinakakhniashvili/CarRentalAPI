@@ -23,7 +23,14 @@ public class UserService : IUserService
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            PhoneNumber = user.PhoneNumber
+            PhoneNumber = user.PhoneNumber,
+            Rentals = user.Rentals
+                .Select(rental => new RentalDTO
+                {
+                    Id = rental.Id,
+                    CarId = rental.CarId,
+                })
+                .ToList() 
         };
 
         return userDTO;

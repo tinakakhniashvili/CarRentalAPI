@@ -73,7 +73,7 @@ public class CarService : ICarService
 
     public IEnumerable<CarDTO> FilterCars(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable)
     {
-        var cars = _carRepository.FilterCras(make, model, year, maxPrice, isAvailable);
+        var cars = _carRepository.FilterCars(make, model, year, maxPrice, isAvailable);
 
         return cars.Select(car => new CarDTO
         {

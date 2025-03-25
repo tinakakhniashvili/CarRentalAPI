@@ -141,7 +141,7 @@ namespace CarRentalApp
                     };
                     _context.Rentals.Add(rental3);
                 }
-
+                
                 _context.SaveChanges();
             }
 

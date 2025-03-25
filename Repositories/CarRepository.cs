@@ -32,7 +32,7 @@ public class CarRepository : ICarRepository
         }
     }
 
-    public IEnumerable<Car> FilterCras(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable)
+    public IEnumerable<Car> FilterCars(string? make, string? model, int? year, decimal? maxPrice, bool? isAvailable)
     {
         var query = _context.Cars.AsQueryable();
 

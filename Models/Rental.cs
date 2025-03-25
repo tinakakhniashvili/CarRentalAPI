@@ -6,7 +6,7 @@ public class Rental
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public decimal TotalPrice { get; set; }
-    public string RentalStatus { get; set; } // Status of the rental (e.g., Active, Completed, Cancelled)
+    public string RentalStatus { get; set; } 
 
     // Foreign key to the User entity
     public int UserId { get; set; }
@@ -15,10 +15,4 @@ public class Rental
     // Foreign ke to the Car entitiy
     public int CarId { get; set; }
     public Car Car { get; set; }
-
-    public void CalculateTotalPrice()
-    {
-      int rentalDays = (EndDate - StartDate).Days;
-      TotalPrice = rentalDays * Car.PricePerDay;
-    }
 }
