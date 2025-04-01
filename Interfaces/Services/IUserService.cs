@@ -8,4 +8,5 @@ public interface IUserService
     UserDTO GetUserById(int userId);
     UserDTO UpdateUser(int userId, UserDTO userDTO);
     List<UserDTO> GetAllUsers();
+    void DeleteUser(int userId);
 }

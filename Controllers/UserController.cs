@@ -52,4 +52,16 @@ public class UserController : ControllerBase
         var updatedUser = _userService.UpdateUser(id, userDTO);
         return Ok(updatedUser);
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    public IActionResult DeleteUser(int userId)
+    {
+        var user = _userService.GetUserById(userId);
+        if (user == null)
+            return NotFound(new { message = "User not found" });
+        
+        _userService.DeleteUser(userId);
+        return NoContent();
+    }
 }

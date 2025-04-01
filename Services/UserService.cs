@@ -1,6 +1,7 @@
 using CarRentalApp.DTOs;
 using CarRentalApp.Interfaces;
 using CarRentalApp.Interfaces.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CarRentalApp.Services;
 
@@ -71,5 +72,14 @@ public class UserService : IUserService
         }).ToList();
 
         return userDTOs;
+    }
+
+    public void DeleteUser(int userId)
+    {
+        // var user = _userRepository.GetUserById(userId);
+        // if (user == null)
+        //     return NotFound(new { message = "Rental not found" });
+        
+        _userRepository.DeleteUser(userId);
     }
 }
